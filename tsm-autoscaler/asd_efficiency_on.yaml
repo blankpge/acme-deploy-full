@@ -1,0 +1,134 @@
+---
+apiVersion: autoscaling.tsm.tanzu.vmware.com/v1alpha1
+kind: Definition
+metadata:
+  name: frontend-v1
+  namespace: acme
+  labels:
+    app: frontend
+    version: v1
+spec:
+  scaleTargetRef:
+    kubernetes:
+      kind: Deployment
+      name: frontend-v1
+  scaleRule:
+    mode: EFFICIENCY
+    enabled: true
+    instances:
+      min: 1
+      max: 10
+    trigger:
+      gracePeriodSeconds: 5
+      metric:
+        name: CPUUsageMillicores
+        scaleUp: 50
+        scaleDown: 30
+---
+apiVersion: autoscaling.tsm.tanzu.vmware.com/v1alpha1
+kind: Definition
+metadata:
+  name: cart-v1
+  namespace: acme
+  labels:
+    app: cart
+    version: v1
+#    release: demo
+spec:
+  scaleTargetRef:
+    kubernetes:
+      kind: Deployment
+      name: cart-v1
+  scaleRule:
+    mode: EFFICIENCY
+    enabled: true
+    instances:
+      min: 1
+      max: 10
+    trigger:
+      gracePeriodSeconds: 50
+      metric:
+        name: CPUUsageMillicores
+        scaleUp: 50
+        scaleDown: 25
+---
+apiVersion: autoscaling.tsm.tanzu.vmware.com/v1alpha1
+kind: Definition
+metadata:
+  name: catalog-v1
+  namespace: acme
+  labels:
+    app: catalog
+    version: v1
+    #release: demo
+spec:
+  scaleTargetRef:
+    kubernetes:
+      kind: Deployment
+      name: catalog-v1
+  scaleRule:
+    mode: EFFICIENCY
+    enabled: true
+    instances:
+      min: 2
+      max: 10
+    trigger:
+      gracePeriodSeconds: 5
+      metric:
+        name: CPUUsagePercent
+        scaleUp: 10
+        scaleDown: 5
+---
+apiVersion: autoscaling.tsm.tanzu.vmware.com/v1alpha1
+kind: Definition
+metadata:
+  name: order-v1
+  namespace: acme
+  labels:
+    app: order-v1
+    version: v1
+    #release: demo
+spec:
+  scaleTargetRef:
+    kubernetes:
+      kind: Deployment
+      name: order-v1
+  scaleRule:
+    mode: EFFICIENCY
+    enabled: true
+    instances:
+      min: 3
+      max: 10
+    trigger:
+      gracePeriodSeconds: 90
+      metric:
+        name: CPUUsagePercent
+        scaleUp: 80
+        scaleDown: 50
+---
+apiVersion: autoscaling.tsm.tanzu.vmware.com/v1alpha1
+kind: Definition
+metadata:
+  name: payment-v1
+  namespace: acme
+  labels:
+    app: payment
+    version: v1
+    #release: demo
+spec:
+  scaleTargetRef:
+    kubernetes:
+      kind: Deployment
+      name: payment-v1
+  scaleRule:
+    mode: EFFICIENCY
+    enabled: true
+    instances:
+      min: 2
+      max: 10
+    trigger:
+      gracePeriodSeconds: 90
+      metric:
+        name: CPUUsagePercent
+        scaleUp: 80
+        scaleDown: 50
